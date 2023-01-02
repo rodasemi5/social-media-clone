@@ -5,10 +5,28 @@ import { FcGoogle } from 'react-icons/fc'
 import shareVideo from '../assets/share.mp4'
 import logo from '../assets/logowhite.png'
 
+import { client } from '../client'
+
 const Login = () => {
 
+  const navigate = useNavigate()
+
   const responseGoogle = (response) => {
-    
+    localStorage.setItem('user', JSON.stringify(response.profileObj))
+
+    const {name, googleID, imageUrl} = response.profileObj
+
+    const doc = {
+      _id: googleID,
+      _type: 'user',
+      userName: name,
+      image: imageUrl,
+    }
+
+    client.createIfNotExists(doc)
+      .then(() => {
+        navigate('/', {replace: true})
+      })
   }
 
   return (
@@ -18,7 +36,7 @@ const Login = () => {
             src={shareVideo}
             type="video/mp4"
             loop
-            controls="false"
+            controls={false}
             muted
             autoPlay
             className='w-full h-full object-cover'
@@ -31,7 +49,7 @@ const Login = () => {
 
               <div className='shadow-2xl'>
                 <GoogleLogin 
-                  clientId=''
+                  clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
                   render={(renderProps) => (
                     <button
                     type='button'
