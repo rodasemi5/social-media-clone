@@ -1,5 +1,5 @@
 # social-media-clone
-An Instagram clone created using JavaScript, Raect, Tailwindcss and Sanity
+An Instagram clone created using JavaScript, React, Tailwindcss and Sanity
 
 A full functional Instagram Clone
 
